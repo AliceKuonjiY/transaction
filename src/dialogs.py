@@ -25,6 +25,9 @@ matplotlib.rcParams['axes.unicode_minus'] = False
 
 
 class AddDialog(QDialog):
+    """
+    添加交易对话框
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("添加交易")
@@ -62,6 +65,9 @@ class AddDialog(QDialog):
         self.setLayout(layout)
 
     def get_transaction(self) -> Transaction:
+        """
+        获取交易对象
+        """
         name = self.name_edit.text()
         transaction_type = TransactionType(self.type_combo.currentText())
         category = Category(CategoryType(self.category_combo.currentText()))
@@ -93,6 +99,9 @@ class AddDialog(QDialog):
 
 
 class ListDialog(QDialog):
+    """
+    交易列表对话框
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("交易列表")
@@ -122,6 +131,9 @@ class ListDialog(QDialog):
 
 
 class PlotDialog(QDialog):
+    """
+    交易图表对话框
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("交易图表")
@@ -145,6 +157,9 @@ class PlotDialog(QDialog):
         self.setLayout(layout)
 
     def update_plot(self):
+        """
+        更新图表
+        """
         style = self.style_combo.currentText()
         transactions = self.parent().transaction_repo
         if style == "bar":

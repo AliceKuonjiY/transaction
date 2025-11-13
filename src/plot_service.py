@@ -4,14 +4,27 @@ from transaction import *
 
 
 class PlotService:
+    """
+    图表服务类，生成不同类型的图表
+    """
     def __init__(
             self,
             style: str = "bar",
             font_size: int = 12):
+        """
+        初始化图表服务对象
+        @param style: 图表样式，支持"bar"、"line"、"pie"
+        @param font_size: 字体大小
+        """
         self.style = style
         self.font_size = font_size
 
     def get_plot(self, transactions: TransactionRepository) -> plt.Figure:
+        """
+        根据交易记录生成图表
+        @param transactions: 交易记录仓库
+        @return: matplotlib图表对象
+        """
         if self.style == "bar":
             return self._create_bar_plot(transactions)
         elif self.style == "line":
@@ -22,6 +35,11 @@ class PlotService:
             raise ValueError(f"Unknown plot style: {self.style}")
         
     def _create_bar_plot(self, transactions: TransactionRepository) -> plt.Figure:
+        """
+        根据交易记录生成柱状图
+        @param transactions: 交易记录仓库
+        @return: matplotlib图表对象
+        """
         category_sums = {}
         for t in transactions.get_all():
             cat_name = t.category.name
@@ -35,6 +53,11 @@ class PlotService:
         return fig
     
     def _create_line_plot(self, transactions: TransactionRepository) -> plt.Figure:
+        """
+        根据交易记录生成折线图
+        @param transactions: 交易记录仓库
+        @return: matplotlib图表对象
+        """
         transactions_sorted = transactions.sort_by_datetime()
         dates = []
         amounts = []
@@ -60,6 +83,11 @@ class PlotService:
         return fig
     
     def _create_pie_chart(self, transactions: TransactionRepository) -> plt.Figure:
+        """
+        根据交易记录生成饼图
+        @param transactions: 交易记录仓库
+        @return: matplotlib图表对象
+        """
         category_sums = {}
         for t in transactions.get_all():
             cat_name = t.category.name

@@ -13,6 +13,9 @@ from PyQt5.QtWidgets import (
 
 
 class MainWindow(QMainWindow):
+    """
+    主窗口类，显示交易摘要并提供导航按钮
+    """
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Main Window")
@@ -22,6 +25,9 @@ class MainWindow(QMainWindow):
         self.update_summary()
 
     def update_summary(self):
+        """
+        更新交易摘要信息
+        """
         sample_info = QVBoxLayout()
         sample_info.addWidget(QLabel("总收入：" + str(self.transaction_repo.filter_by_type(TransactionType.INCOME).get_total_amount())))
         sample_info.addWidget(QLabel("总支出：" + str(self.transaction_repo.filter_by_type(TransactionType.EXPENSE).get_total_amount())))
@@ -30,6 +36,9 @@ class MainWindow(QMainWindow):
                                      str(self.transaction_repo.filter_by_type(TransactionType.INCOME).get_total_amount() -
                                          self.transaction_repo.filter_by_type(TransactionType.EXPENSE).get_total_amount())))
 
+        """
+        创建并布局导航按钮
+        """
         button_layout = QHBoxLayout()
         add_button = QPushButton("添加交易")
         add_button.setFixedHeight(40)
@@ -64,6 +73,9 @@ class MainWindow(QMainWindow):
         self.centralWidget().setLayout(main_layout)
 
     def add_transaction(self):
+        """
+        添加交易
+        """
         print("添加交易按钮被点击")
         dialog = AddDialog(self)
         if dialog.exec_() == QDialog.Accepted:
@@ -76,21 +88,32 @@ class MainWindow(QMainWindow):
             print("交易已添加")
 
     def show_list(self):
+        """
+        显示交易列表
+        """
         print("交易列表按钮被点击")
         dialog = ListDialog(self)
         dialog.exec_()
 
     def show_plot(self):
+        """
+        显示图表
+        """
         print("显示图表按钮被点击")
         dialog = PlotDialog(self)
         dialog.exec_()
 
-
     def save_data(self):
+        """
+        保存数据
+        """
         print("保存数据按钮被点击")
         self.transaction_repo.save_to_json("transactions.json")
 
     def load_data(self):
+        """
+        加载数据
+        """
         print("加载数据按钮被点击")
         self.transaction_repo = TransactionRepository.load_from_json("transactions.json")
         self.update_summary()

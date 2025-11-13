@@ -2,6 +2,9 @@ from enum import Enum
 
 
 class TransactionType(Enum):
+    """
+    交易类型枚举
+    """
     INCOME = "收入"
     EXPENSE = "支出"
 
@@ -13,6 +16,9 @@ class TransactionType(Enum):
 
 
 class CategoryType(Enum):
+    """
+    交易类别枚举
+    """
     FOOD = "食品"
     TRANSPORT = "交通"
     ENTERTAINMENT = "娱乐"
@@ -27,6 +33,9 @@ class CategoryType(Enum):
 
 
 class Category:
+    """
+    交易类别类
+    """
     def __init__(
             self,
             category_type: CategoryType,
@@ -39,6 +48,9 @@ class Category:
 
 
 class DateTime:
+    """
+    自定义日期时间类
+    """
     def __init__(
             self,
             year: int,
@@ -46,6 +58,14 @@ class DateTime:
             day: int,
             hour: int = 0,
             minute: int = 0):
+        """
+        初始化DateTime对象
+        @param year: 年
+        @param month: 月
+        @param day: 日
+        @param hour: 时
+        @param minute: 分
+        """
         self.year = year
         self.month = month
         self.day = day
@@ -53,6 +73,10 @@ class DateTime:
         self.minute = minute
 
     def from_string(date_str: str) -> 'DateTime':
+        """
+        从字符串解析DateTime对象
+        @param date_str: 日期时间字符串，格式为"YYYY-MM-DD HH:MM"
+        """
         date_part, time_part = date_str.split(" ")
         year, month, day = map(int, date_part.split("-"))
         hour, minute = map(int, time_part.split(":"))
@@ -79,6 +103,9 @@ class DateTime:
 
 
 class Transaction:
+    """
+    交易类
+    """
     def __init__(
             self,
             name: str,
@@ -87,6 +114,15 @@ class Transaction:
             category: Category,
             datetime: DateTime,
             remarks: str = ""):
+        """
+        初始化交易对象
+        @param name: 交易名称
+        @param amount: 交易金额
+        @param transaction_type: 交易类型
+        @param category: 交易类别
+        @param datetime: 交易时间
+        @param remarks: 备注
+        """
         self.name = name
         self.amount = amount
         self.transaction_type = transaction_type

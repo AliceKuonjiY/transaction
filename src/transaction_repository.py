@@ -4,19 +4,33 @@ import datetime as _dt
 
 
 class TransactionRepository:
+    """
+    交易仓库类，管理交易记录
+    """
     def __init__(self, transactions: list[Transaction] = None):
         self.transactions = transactions if transactions is not None else []
 
     def insert(self, transaction: Transaction):
+        """
+        插入交易记录
+        """
         self.transactions.append(transaction)
 
     def erase(self, transaction: Transaction):
+        """
+        删除交易记录
+        """
         self.transactions.remove(transaction)
 
     def filter_by_time_range(
             self,
             start_time: DateTime,
             end_time: DateTime) -> 'TransactionRepository':
+        """
+        根据时间范围过滤交易记录
+        @param start_time: 起始时间
+        @param end_time: 结束时间
+        """
         return TransactionRepository([
             t for t in self.transactions
             if start_time <= t.datetime <= end_time
@@ -25,6 +39,10 @@ class TransactionRepository:
     def filter_by_type(
             self,
             transaction_type: TransactionType) -> 'TransactionRepository':
+        """
+        根据交易类型过滤交易记录
+        @param transaction_type: 交易类型
+        """
         return TransactionRepository([
             t for t in self.transactions
             if t.transaction_type == transaction_type
@@ -33,12 +51,19 @@ class TransactionRepository:
     def filter_by_category(
             self,
             category: Category) -> 'TransactionRepository':
+        """
+        根据交易类别过滤交易记录
+        @param category: 交易类别
+        """
         return TransactionRepository([
             t for t in self.transactions
             if t.category == category
         ])
     
     def sort_by_datetime(self) -> 'TransactionRepository':
+        """
+        按时间排序交易记录
+        """
         return TransactionRepository(
             sorted(self.transactions, key=lambda t: t.datetime)
         )
@@ -77,6 +102,9 @@ class TransactionRepository:
         return None
     
     def save_to_json(self, file_path: str) -> None:
+        """
+        保存交易记录到JSON文件
+        """
         data = []
         for t in self.transactions:
             name = t.name
@@ -98,6 +126,9 @@ class TransactionRepository:
 
     @classmethod
     def load_from_json(cls, file_path: str) -> 'TransactionRepository':
+        """
+        从JSON文件加载交易记录
+        """
         with open(file_path, "r", encoding="utf-8") as f:
             data = json.load(f)
         transactions = []
