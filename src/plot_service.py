@@ -2,30 +2,24 @@ from matplotlib import pyplot as plt
 from transaction_repository import TransactionRepository
 from transaction import *
 
-class PlotSettings:
-    def __init__(
-            self,
-            style: str,
-            color_scheme: str,
-            font_size: int):
-        self.style = style
-        self.color_scheme = color_scheme
-        self.font_size = font_size
-
 
 class PlotService:
-    def __init__(self, plot_settings: PlotSettings):
-        self.settings = plot_settings
+    def __init__(
+            self,
+            style: str = "bar",
+            font_size: int = 12):
+        self.style = style
+        self.font_size = font_size
 
     def get_plot(self, transactions: TransactionRepository) -> plt.Figure:
-        if self.settings.style == "bar":
+        if self.style == "bar":
             return self._create_bar_plot(transactions)
-        elif self.settings.style == "line":
+        elif self.style == "line":
             return self._create_line_plot(transactions)
-        elif self.settings.style == "pie":
+        elif self.style == "pie":
             return self._create_pie_chart(transactions)
         else:
-            raise ValueError(f"Unknown plot style: {self.settings.style}")
+            raise ValueError(f"Unknown plot style: {self.style}")
         
     def _create_bar_plot(self, transactions: TransactionRepository) -> plt.Figure:
         category_sums = {}
@@ -34,10 +28,10 @@ class PlotService:
             category_sums[cat_name] = category_sums.get(cat_name, 0) + t.amount
         
         fig, ax = plt.subplots()
-        ax.bar(category_sums.keys(), category_sums.values(), color=self.settings.color_scheme)
-        ax.set_title("Transaction Amounts by Category", fontsize=self.settings.font_size)
-        ax.set_xlabel("Category", fontsize=self.settings.font_size)
-        ax.set_ylabel("Total Amount", fontsize=self.settings.font_size)
+        ax.bar(category_sums.keys(), category_sums.values())
+        ax.set_title("Transaction Amounts by Category", fontsize=self.font_size)
+        ax.set_xlabel("Category", fontsize=self.font_size)
+        ax.set_ylabel("Total Amount", fontsize=self.font_size)
         return fig
     
     def _create_line_plot(self, transactions: TransactionRepository) -> plt.Figure:
@@ -58,10 +52,10 @@ class PlotService:
                     amounts.append(t.amount)
         
         fig, ax = plt.subplots()
-        ax.plot(dates, amounts, marker='o', color=self.settings.color_scheme)
-        ax.set_title("Transaction Amounts Over Time", fontsize=self.settings.font_size)
-        ax.set_xlabel("Date", fontsize=self.settings.font_size)
-        ax.set_ylabel("Amount", fontsize=self.settings.font_size)
+        ax.plot(dates, amounts, marker='o')
+        ax.set_title("Transaction Amounts Over Time", fontsize=self.font_size)
+        ax.set_xlabel("Date", fontsize=self.font_size)
+        ax.set_ylabel("Amount", fontsize=self.font_size)
         plt.xticks(rotation=45)
         return fig
     
@@ -72,6 +66,6 @@ class PlotService:
             category_sums[cat_name] = category_sums.get(cat_name, 0) + t.amount
         
         fig, ax = plt.subplots()
-        ax.pie(category_sums.values(), labels=category_sums.keys(), autopct='%1.1f%%', colors=plt.get_cmap(self.settings.color_scheme).colors)
-        ax.set_title("Transaction Distribution by Category", fontsize=self.settings.font_size)
+        ax.pie(category_sums.values(), labels=category_sums.keys(), autopct='%1.1f%%')
+        ax.set_title("Transaction Distribution by Category", fontsize=self.font_size)
         return fig

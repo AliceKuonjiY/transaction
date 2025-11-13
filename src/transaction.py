@@ -1,17 +1,29 @@
 from enum import Enum
 
+
 class TransactionType(Enum):
-    INCOME = "income"
-    EXPENSE = "expense"
+    INCOME = "收入"
+    EXPENSE = "支出"
+
+    def from_string(s: str) -> 'TransactionType':
+        for t in TransactionType:
+            if t.value == s:
+                return t
+        raise ValueError(f"Unknown TransactionType: {s}")
 
 
 class CategoryType(Enum):
-    FOOD = "food"
-    TRANSPORT = "transport"
-    ENTERTAINMENT = "entertainment"
-    UTILITIES = "utilities"
-    SALARY = "salary"
-    OTHER = "other"
+    FOOD = "食品"
+    TRANSPORT = "交通"
+    ENTERTAINMENT = "娱乐"
+    SALARY = "工资"
+    OTHER = "其他"
+
+    def from_string(s: str) -> 'CategoryType':
+        for ct in CategoryType:
+            if ct.value == s:
+                return ct
+        return CategoryType.OTHER
 
 
 class Category:
@@ -40,6 +52,12 @@ class DateTime:
         self.hour = hour
         self.minute = minute
 
+    def from_string(date_str: str) -> 'DateTime':
+        date_part, time_part = date_str.split(" ")
+        year, month, day = map(int, date_part.split("-"))
+        hour, minute = map(int, time_part.split(":"))
+        return DateTime(year, month, day, hour, minute)
+
     def __eq__(self, other):
         return (self.year == other.year and
                 self.month == other.month and
@@ -63,13 +81,13 @@ class DateTime:
 class Transaction:
     def __init__(
             self,
-            id: str,
+            name: str,
             amount: float,
             transaction_type: TransactionType,
             category: Category,
             datetime: DateTime,
             remarks: str = ""):
-        self.id = id
+        self.name = name
         self.amount = amount
         self.transaction_type = transaction_type
         self.category = category

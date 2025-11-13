@@ -1,4 +1,7 @@
 from transaction import *
+import json
+import datetime as _dt
+
 
 class TransactionRepository:
     def __init__(self, transactions: list[Transaction] = None):
@@ -67,8 +70,43 @@ class TransactionRepository:
             return 0.0
         return min(t.amount for t in self.transactions)
     
-    def find_by_id(self, id: str) -> Transaction | None:
+    def find_by_name(self, name: str) -> Transaction | None:
         for t in self.transactions:
-            if t.id == id:
+            if t.name == name:
                 return t
         return None
+    
+    def save_to_json(self, file_path: str) -> None:
+        data = []
+        for t in self.transactions:
+            name = t.name
+            datetime = t.datetime.__str__()
+            amount = t.amount
+            transaction_type = t.transaction_type.value
+            category = t.category.name if hasattr(t.category, "name") else t.category
+            remarks = t.remarks
+            data.append({
+                "name": name,
+                "datetime": datetime,
+                "amount": amount,
+                "transaction_type": transaction_type,
+                "category": category,
+                "remarks": remarks
+            })
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    @classmethod
+    def load_from_json(cls, file_path: str) -> 'TransactionRepository':
+        with open(file_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        transactions = []
+        for d in data:
+            name = d.get("name")
+            datetime = DateTime.from_string(d.get("datetime"))
+            amount = float(d.get("amount"))
+            transaction_type = TransactionType.from_string(d.get("transaction_type"))
+            category = Category(CategoryType.from_string(d.get("category")), d.get("category"))
+            remarks = d.get("remarks")
+            transactions.append(Transaction(name, amount, transaction_type, category, datetime, remarks))
+        return cls(transactions)
