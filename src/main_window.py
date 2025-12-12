@@ -1,6 +1,7 @@
-from transaction_repository import TransactionRepository
-from transaction import *
-from dialogs import AddDialog, ListDialog, PlotDialog
+"""
+主窗口模块
+"""
+
 from PyQt5.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -10,6 +11,9 @@ from PyQt5.QtWidgets import (
     QLabel,
     QDialog
 )
+from src.transaction_repository import TransactionRepository
+from src.transaction import TransactionType
+from src.dialogs import AddDialog, ListDialog, PlotDialog
 
 
 class MainWindow(QMainWindow):
@@ -21,7 +25,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Main Window")
         self.setGeometry(100, 100, 400, 300)
         self.transaction_repo = TransactionRepository()
-        
         self.update_summary()
 
     def update_summary(self):
@@ -29,16 +32,14 @@ class MainWindow(QMainWindow):
         更新交易摘要信息
         """
         sample_info = QVBoxLayout()
-        sample_info.addWidget(QLabel("总收入：" + str(self.transaction_repo.filter_by_type(TransactionType.INCOME).get_total_amount())))
-        sample_info.addWidget(QLabel("总支出：" + str(self.transaction_repo.filter_by_type(TransactionType.EXPENSE).get_total_amount())))
+        sample_info.addWidget(QLabel("总收入：" + \
+            str(self.transaction_repo.filter_by_type(TransactionType.INCOME).get_total_amount())))
+        sample_info.addWidget(QLabel("总支出：" + \
+            str(self.transaction_repo.filter_by_type(TransactionType.EXPENSE).get_total_amount())))
         sample_info.addWidget(QLabel("交易总数：" + str(self.transaction_repo.get_count())))
-        sample_info.addWidget(QLabel("余额：" +
-                                     str(self.transaction_repo.filter_by_type(TransactionType.INCOME).get_total_amount() -
-                                         self.transaction_repo.filter_by_type(TransactionType.EXPENSE).get_total_amount())))
-
-        """
-        创建并布局导航按钮
-        """
+        sample_info.addWidget(QLabel("余额：" + \
+            str(self.transaction_repo.filter_by_type(TransactionType.INCOME).get_total_amount() - \
+            self.transaction_repo.filter_by_type(TransactionType.EXPENSE).get_total_amount())))
         button_layout = QHBoxLayout()
         add_button = QPushButton("添加交易")
         add_button.setFixedHeight(40)

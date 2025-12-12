@@ -1,6 +1,9 @@
+"""
+图表服务模块
+"""
+
 from matplotlib import pyplot as plt
-from transaction_repository import TransactionRepository
-from transaction import *
+from src.transaction_repository import TransactionRepository
 
 
 class PlotService:
@@ -33,7 +36,7 @@ class PlotService:
             return self._create_pie_chart(transactions)
         else:
             raise ValueError(f"Unknown plot style: {self.style}")
-        
+
     def _create_bar_plot(self, transactions: TransactionRepository) -> plt.Figure:
         """
         根据交易记录生成柱状图
@@ -44,14 +47,14 @@ class PlotService:
         for t in transactions.get_all():
             cat_name = t.category.name
             category_sums[cat_name] = category_sums.get(cat_name, 0) + t.amount
-        
+
         fig, ax = plt.subplots()
         ax.bar(category_sums.keys(), category_sums.values())
         ax.set_title("Transaction Amounts by Category", fontsize=self.font_size)
         ax.set_xlabel("Category", fontsize=self.font_size)
         ax.set_ylabel("Total Amount", fontsize=self.font_size)
         return fig
-    
+
     def _create_line_plot(self, transactions: TransactionRepository) -> plt.Figure:
         """
         根据交易记录生成折线图
@@ -73,7 +76,7 @@ class PlotService:
                 else:
                     dates.append(current_date)
                     amounts.append(t.amount)
-        
+
         fig, ax = plt.subplots()
         ax.plot(dates, amounts, marker='o')
         ax.set_title("Transaction Amounts Over Time", fontsize=self.font_size)
@@ -81,7 +84,7 @@ class PlotService:
         ax.set_ylabel("Amount", fontsize=self.font_size)
         plt.xticks(rotation=45)
         return fig
-    
+
     def _create_pie_chart(self, transactions: TransactionRepository) -> plt.Figure:
         """
         根据交易记录生成饼图
@@ -92,7 +95,7 @@ class PlotService:
         for t in transactions.get_all():
             cat_name = t.category.name
             category_sums[cat_name] = category_sums.get(cat_name, 0) + t.amount
-        
+
         fig, ax = plt.subplots()
         ax.pie(category_sums.values(), labels=category_sums.keys(), autopct='%1.1f%%')
         ax.set_title("Transaction Distribution by Category", fontsize=self.font_size)

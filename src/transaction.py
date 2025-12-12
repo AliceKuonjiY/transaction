@@ -1,3 +1,7 @@
+"""
+交易模块
+"""
+
 from enum import Enum
 
 
@@ -8,7 +12,11 @@ class TransactionType(Enum):
     INCOME = "收入"
     EXPENSE = "支出"
 
-    def from_string(s: str) -> 'TransactionType':
+    @classmethod
+    def from_string(cls, s: str) -> 'TransactionType':
+        """
+        从字符串解析TransactionType枚举
+        """
         for t in TransactionType:
             if t.value == s:
                 return t
@@ -25,7 +33,11 @@ class CategoryType(Enum):
     SALARY = "工资"
     OTHER = "其他"
 
-    def from_string(s: str) -> 'CategoryType':
+    @classmethod
+    def from_string(cls, s: str) -> 'CategoryType':
+        """
+        从字符串解析CategoryType枚举
+        """
         for ct in CategoryType:
             if ct.value == s:
                 return ct
@@ -72,7 +84,8 @@ class DateTime:
         self.hour = hour
         self.minute = minute
 
-    def from_string(date_str: str) -> 'DateTime':
+    @classmethod
+    def from_string(cls, date_str: str) -> 'DateTime':
         """
         从字符串解析DateTime对象
         @param date_str: 日期时间字符串，格式为"YYYY-MM-DD HH:MM"
@@ -89,7 +102,7 @@ class DateTime:
 
     def __str__(self):
         return f"{self.year:04}-{self.month:02}-{self.day:02} {self.hour:02}:{self.minute:02}"
-    
+
     def __lt__(self, other):
         if self.year != other.year:
             return self.year < other.year

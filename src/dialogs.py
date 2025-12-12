@@ -1,5 +1,7 @@
-from transaction import *
-from plot_service import PlotService
+"""
+对话框模块
+"""
+
 from PyQt5.QtWidgets import (
     QDialog,
     QHBoxLayout,
@@ -14,9 +16,10 @@ from PyQt5.QtWidgets import (
     QTimeEdit,
     QListWidget
 )
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib
-import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from src.plot_service import PlotService
+from src.transaction import Transaction, TransactionType, Category, CategoryType, DateTime
 
 
 matplotlib.rcParams['font.family'] = 'sans-serif'
@@ -95,6 +98,9 @@ class AddDialog(QDialog):
         )
 
     def accept(self):
+        """
+        重写接受方法
+        """
         return super().accept()
 
 
@@ -114,7 +120,8 @@ class ListDialog(QDialog):
         transactions = parent.transaction_repo.get_all()
 
         for t in transactions:
-            item_text = f"名称: {t.name}  |  类型: {t.transaction_type.value}  |  金额: {t.amount}  |  时间: {t.datetime}  |  类别: {t.category.name}"
+            item_text = f"名称: {t.name}  |  类型: {t.transaction_type.value}  " + \
+            f"|  金额: {t.amount}  |  时间: {t.datetime}  |  类别: {t.category.name}"
             self.list_widget.addItem(item_text)
 
         self.list_widget.clicked.connect(self.on_item_clicked)
@@ -126,6 +133,9 @@ class ListDialog(QDialog):
         self.setLayout(layout)
 
     def on_item_clicked(self, index):
+        """
+        处理列表项点击事件
+        """
         item = self.list_widget.item(index.row())
         print(f"Clicked on: {item.text()}")
 
