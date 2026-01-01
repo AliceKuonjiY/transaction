@@ -31,7 +31,7 @@ jobs:
     # 第四步：运行单元测试
     - name: Run tests with pytest
       run: |
-        pytest test1.py
-        pytest test2.py
-        pytest test3.py
-        pytest test4.py
+        pytest src/test1.py
+        pytest src/test2.py
+        pytest src/test3.py
+        pytest src/test4.py
