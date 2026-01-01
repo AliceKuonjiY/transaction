@@ -9,11 +9,11 @@ class TransactionType(Enum):
     """
     交易类型枚举
     """
-    INCOME = "收入"
-    EXPENSE = "支出"
+    INCOME = 0
+    EXPENSE = 1
 
     @classmethod
-    def from_string(cls, s: str) -> 'TransactionType':
+    def from_string(cls, s: int) -> 'TransactionType':
         """
         从字符串解析TransactionType枚举
         """
@@ -27,11 +27,11 @@ class CategoryType(Enum):
     """
     交易类别枚举
     """
-    FOOD = "食品"
-    TRANSPORT = "交通"
-    ENTERTAINMENT = "娱乐"
-    SALARY = "工资"
-    OTHER = "其他"
+    FOOD = 0
+    TRANSPORT = 1
+    ENTERTAINMENT = 2
+    SALARY = 3
+    OTHER = 4
 
     @classmethod
     def from_string(cls, s: str) -> 'CategoryType':

@@ -18,8 +18,8 @@ from PyQt5.QtWidgets import (
 )
 import matplotlib
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from src.plot_service import PlotService
-from src.transaction import Transaction, TransactionType, Category, CategoryType, DateTime
+from plot_service import PlotService
+from transaction import Transaction, TransactionType, Category, CategoryType, DateTime
 
 
 matplotlib.rcParams['font.family'] = 'sans-serif'

@@ -36,7 +36,7 @@ class TransactionRepository:
         """
         return TransactionRepository([
             t for t in self.transactions
-            if start_time <= t.datetime <= end_time
+            if start_time.__lt__(t.datetime) and t.datetime.__lt__(end_time)
         ])
 
     def filter_by_type(
@@ -136,7 +136,7 @@ class TransactionRepository:
         data = []
         for t in self.transactions:
             name = t.name
-            datetime = t.datetime.to_string()
+            datetime = t.datetime.__str__()
             amount = t.amount
             transaction_type = t.transaction_type.value
             category = t.category.name if hasattr(t.category, "name") else t.category

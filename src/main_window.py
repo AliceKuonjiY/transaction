@@ -11,9 +11,9 @@ from PyQt5.QtWidgets import (
     QLabel,
     QDialog
 )
-from src.transaction_repository import TransactionRepository
-from src.transaction import TransactionType
-from src.dialogs import AddDialog, ListDialog, PlotDialog
+from transaction_repository import TransactionRepository
+from transaction import TransactionType
+from dialogs import AddDialog, ListDialog, PlotDialog
 
 
 class MainWindow(QMainWindow):
